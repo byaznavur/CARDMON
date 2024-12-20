@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import { v4 } from "uuid";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Costs from "./pages/Costs";
@@ -34,13 +35,56 @@ const App = () => {
       description: "Ffdf kfjdk keeeqw fdsfds !",
     },
   ]);
+
+  const [validated, setValidated] = useState(false);
+  const [show, setShow] = useState(false);
+  const [debt, setDebt] = useState({
+    name: "",
+    deadline: "",
+    amount: "",
+    phone: "",
+    description: "",
+  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    if (form.checkValidity()) {
+      let newDebt = { ...debt, id: v4() };
+      setDebts([...debts, newDebt]);
+      handleClose();
+    } else {
+      setValidated(true);
+    }
+  };
+
+  const handleDebt = (e) => {
+     setDebt({ ...debt, [e.target.id]: e.target.value });
+    console.log(e.target.value, e.target.id);
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route path="" element={<Home />} />
           <Route path="costs" element={<Costs />} />
-          <Route path="debts" element={<Debts debts={debts} />} />
+          <Route
+            path="debts"
+            element={
+              <Debts
+                debt={debt}
+                show={show}
+                debts={debts}
+                handleClose={handleClose}
+                handleShow={handleShow}
+                validated={validated}
+                handleSubmit={handleSubmit}
+                handleDebt={handleDebt}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<NotFaund />} />
       </Routes>

@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import DebtCard from "../components/cards";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 
-const Debts = ({ debts }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+const Debts = ({
+  debt,
+  debts,
+  show,
+  handleClose,
+  handleShow,
+  validated,
+  handleSubmit,
+  handleDebt,
+}) => {
   return (
     <div className="container p-0">
       <div className="input-group mb-3 mt-3">
@@ -33,18 +37,82 @@ const Debts = ({ debts }) => {
       </div>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Data</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Add
-          </Button>
-        </Modal.Footer>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Data</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                required
+                onChange={handleDebt}
+                value={debt.name}
+                type="text"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please fill !
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="phone">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                required
+                onChange={handleDebt}
+                value={debt.phone}
+                type="text"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please fill !
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="amount">
+              <Form.Label>Amount</Form.Label>
+              <Form.Control
+                required
+                onChange={handleDebt}
+                value={debt.amount}
+                type="number"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please fill !
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="dedline">
+              <Form.Label>Dedline</Form.Label>
+              <Form.Control
+                required
+                onChange={handleDebt}
+                value={debt.dedline}
+                type="date"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please fill !
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                required
+                onChange={handleDebt}
+                value={debt.description}
+                as="textarea"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please fill !
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" variant="primary">
+              Add
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </div>
   );
