@@ -10,3 +10,6 @@ a {
   text-decoration: none !important;
   font-size: 25px;
 }
+main {
+  margin-top: 60px;
+}

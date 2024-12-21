@@ -8,7 +8,14 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header>
+    <header
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+      }}
+    >
       <nav className="container bg-primary p-2 rounded-top-4  d-flex  align-items-center justify-content-between">
         <Link
           className="logo text-white fw-bold  d-flex aling-items-center"

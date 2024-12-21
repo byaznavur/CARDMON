@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer
-      className="container-fluid text-white text-center"
+      className="text-white  text-center rounded-bottom-4  "
       style={{
         position: "fixed",
         bottom: 0,
