@@ -22,7 +22,7 @@ const Header = () => {
 
         <ul className="d-flex  align-items-center justify-content-between m-0 p-0 gap-3">
           <li>
-            <Link className="text-white" to="/">
+            <Link className="text-white" to="/home">
               <FaHome />{" "}
             </Link>
           </li>

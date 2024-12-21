@@ -7,6 +7,7 @@ import Costs from "./pages/Costs";
 import Debts from "./pages/Debts";
 import Layout from "./components/layout/index";
 import NotFaund from "./pages/NotFaund";
+import Login from "./pages/Login";
 
 const App = () => {
   const [debts, setDebts] = useState([
@@ -35,7 +36,7 @@ const App = () => {
       description: "Ffdf kfjdk keeeqw fdsfds !",
     },
   ]);
-
+  const [selected, setSelected] = useState(null);
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [debt, setDebt] = useState({
@@ -45,12 +46,26 @@ const App = () => {
     phone: "",
     description: "",
   });
+  const [search, setSearch] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     if (form.checkValidity()) {
-      let newDebt = { ...debt, id: v4() };
-      setDebts([...debts, newDebt]);
+      let newDebts;
+      let newDebt = { ...debt, amount: +debt.amount, id: v4() };
+
+      if (selected === null) {
+        newDebts = [...debts, newDebt];
+      } else {
+        newDebts = debts.map((debt) => {
+          if (debt.id === selected) {
+            return newDebt;
+          } else {
+            return debt;
+          }
+        });
+      }
+      setDebts(newDebts);
       handleClose();
     } else {
       setValidated(true);
@@ -58,17 +73,49 @@ const App = () => {
   };
 
   const handleDebt = (e) => {
-     setDebt({ ...debt, [e.target.id]: e.target.value });
-    console.log(e.target.value, e.target.id);
+    setDebt({ ...debt, [e.target.id]: e.target.value });
   };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => {
+    setShow(true);
+    setDebt({
+      name: "",
+      deadline: "",
+      amount: "",
+      phone: "",
+      description: "",
+    });
+    setSelected(null);
+  };
+
+  const editDebt = (id) => {
+    let debt = debts.find((el) => el.id === id);
+    setDebt(debt);
+    setSelected(id);
+    setShow(true);
+  };
+
+  const deleteDebt = (id) => {
+    let checkDelete = window.confirm("Are you sure you want to delete ? ");
+
+    if (checkDelete) {
+      let newDebts = debts.filter((el) => el.id !== id);
+      setDebts(newDebts);
+    }
+  };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.trim().toLowerCase());
+  };
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Login />} />
         <Route element={<Layout />}>
-          <Route path="" element={<Home />} />
+          <Route path="home" element={<Home />} />
           <Route path="costs" element={<Costs />} />
           <Route
             path="debts"
@@ -82,6 +129,11 @@ const App = () => {
                 validated={validated}
                 handleSubmit={handleSubmit}
                 handleDebt={handleDebt}
+                editDebt={editDebt}
+                selected={selected}
+                deleteDebt={deleteDebt}
+                search={search}
+                handleSearch={handleSearch}
               />
             }
           />

@@ -14,6 +14,8 @@ const DebtCard = ({
   phone,
   description,
   children,
+  editDebt,
+  deleteDebt,
 }) => {
   return (
     <div className="alert w-100 alert-warning p-2 d-flex align-items-center justify-content-between">
@@ -27,10 +29,10 @@ const DebtCard = ({
       </div>
       {/* <p>{children.slice(0, 10)}...</p> */}
       <div>
-        <button className="btn btn-primary me-2">
+        <button onClick={(e) => editDebt(id)} className="btn btn-primary me-2">
           <FaEdit />
         </button>
-        <button className="btn btn-danger me-2">
+        <button onClick={(e) => deleteDebt(id)} className="btn btn-danger me-2">
           <MdDelete />
         </button>
         <Link to={`/debts/${id}`} className="btn btn-warning">

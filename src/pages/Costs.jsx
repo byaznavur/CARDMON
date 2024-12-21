@@ -1,7 +1,11 @@
 import React from "react";
 
 const Costs = () => {
-  return <div></div>;
+  return (
+    <div className="container">
+      <h2>Costs</h2>
+    </div>
+  );
 };
 
 export default Costs;
