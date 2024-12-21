@@ -19,7 +19,7 @@ const Header = () => {
       <nav className="container bg-primary p-2 rounded-top-4  d-flex  align-items-center justify-content-between">
         <Link
           className="logo text-white fw-bold  d-flex aling-items-center"
-          to="/"
+          to="/home"
         >
           Cardmon{" "}
           <span>

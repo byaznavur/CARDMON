@@ -128,7 +128,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<Layout />}>
-          <Route path="home" element={<Home />} />
+          <Route path="home" element={<Home debts={debts} />} />
           <Route path="costs" element={<Costs />} />
           <Route
             path="debts"
