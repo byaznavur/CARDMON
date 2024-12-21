@@ -3,21 +3,24 @@ import DebtCard from "../components/cards";
 import { Button, Form, Modal } from "react-bootstrap";
 
 const Debts = forwardRef(
-  ({
-    debt,
-    debts,
-    show,
-    handleClose,
-    handleShow,
-    validated,
-    handleSubmit,
-    handleDebt,
-    deleteDebt,
-    editDebt,
-    selected,
-    search,
-    handleSearch,
-  }) => {
+  (
+    {
+      debt,
+      debts,
+      show,
+      handleClose,
+      handleShow,
+      validated,
+      handleSubmit,
+      handleDebt,
+      deleteDebt,
+      editDebt,
+      selected,
+      search,
+      handleSearch,
+    },
+    ref
+  ) => {
     let foundDebt = debts.filter((el) =>
       el.name.toLowerCase().includes(search)
     );
@@ -25,6 +28,7 @@ const Debts = forwardRef(
       <div className="container p-0">
         <div className="input-group mb-3 mt-3">
           <input
+            ref={ref}
             type="text"
             className="form-control"
             placeholder="Searching..."
@@ -96,12 +100,12 @@ const Debts = forwardRef(
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="dedline">
+              <Form.Group controlId="deadline">
                 <Form.Label>Dedline</Form.Label>
                 <Form.Control
                   required
                   onChange={handleDebt}
-                  value={debt.dedline}
+                  value={debt.deadline}
                   type="date"
                 />
                 <Form.Control.Feedback type="invalid">

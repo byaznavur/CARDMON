@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import { v4 } from "uuid";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -8,34 +8,39 @@ import Debts from "./pages/Debts";
 import Layout from "./components/layout/index";
 import NotFaund from "./pages/NotFaund";
 import Login from "./pages/Login";
+import { DEBTS } from "./constants";
+import { toast } from "react-toastify";
+import Debt from "./pages/Debt";
 
 const App = () => {
-  const [debts, setDebts] = useState([
-    {
-      id: "1",
-      name: "Azamat",
-      deadline: "2023-09-30",
-      amount: 1000,
-      phone: "994571234",
-      description: "Aniq va'da bergan !",
-    },
-    {
-      id: "2",
-      name: "Shohrux",
-      deadline: "2023-10-02",
-      amount: 2000,
-      phone: "9983431234",
-      description: "Bfd fdjsf lkfj dlskf  !",
-    },
-    {
-      id: "3",
-      name: "Nodirbek",
-      deadline: "2023-10-01",
-      amount: 1500,
-      phone: "997777777",
-      description: "Ffdf kfjdk keeeqw fdsfds !",
-    },
-  ]);
+  const [debts, setDebts] = useState(
+    JSON.parse(localStorage.getItem(DEBTS)) || [
+      {
+        id: "1",
+        name: "Azamat",
+        deadline: "2023-09-30",
+        amount: 1000,
+        phone: "994571234",
+        description: "Aniq va'da bergan !",
+      },
+      {
+        id: "2",
+        name: "Shohrux",
+        deadline: "2023-10-02",
+        amount: 2000,
+        phone: "9983431234",
+        description: "Bfd fdjsf lkfj dlskf  !",
+      },
+      {
+        id: "3",
+        name: "Nodirbek",
+        deadline: "2023-10-01",
+        amount: 1500,
+        phone: "997777777",
+        description: "Ffdf kfjdk keeeqw fdsfds !",
+      },
+    ]
+  );
   const [selected, setSelected] = useState(null);
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
@@ -47,6 +52,7 @@ const App = () => {
     description: "",
   });
   const [search, setSearch] = useState("");
+  const searchRef = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -56,6 +62,7 @@ const App = () => {
 
       if (selected === null) {
         newDebts = [...debts, newDebt];
+        toast.success("Added successfully");
       } else {
         newDebts = debts.map((debt) => {
           if (debt.id === selected) {
@@ -64,7 +71,10 @@ const App = () => {
             return debt;
           }
         });
+        toast.success("Edited successfully");
       }
+      localStorage.setItem(DEBTS, JSON.stringify(newDebts));
+
       setDebts(newDebts);
       handleClose();
     } else {
@@ -103,7 +113,10 @@ const App = () => {
 
     if (checkDelete) {
       let newDebts = debts.filter((el) => el.id !== id);
+      localStorage.setItem(DEBTS, JSON.stringify(newDebts));
+
       setDebts(newDebts);
+      toast.success("Deleted successfully");
     }
   };
 
@@ -134,10 +147,13 @@ const App = () => {
                 deleteDebt={deleteDebt}
                 search={search}
                 handleSearch={handleSearch}
+                ref={searchRef}
               />
             }
           />
+          <Route path="debts/:debtId" element={<Debt debts={debts} />} />
         </Route>
+
         <Route path="*" element={<NotFaund />} />
       </Routes>
     </BrowserRouter>
