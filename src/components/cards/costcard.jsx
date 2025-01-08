@@ -7,7 +7,7 @@ import { LuMessageCircleMore } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const CostCard = ({ title, desc, id, price, day }) => {
+const CostCard = ({ title, desc, editCost, id, price, day, deleteCost }) => {
   return (
     <div className="alert w-100 alert-warning p-2 d-flex align-items-center justify-content-between">
       <div>
@@ -20,13 +20,13 @@ const CostCard = ({ title, desc, id, price, day }) => {
       </div>
       {/* <p>{children.slice(0, 10)}...</p> */}
       <div>
-        <button className="btn btn-primary me-2">
+        <button onClick={() => editCost(id)} className="btn btn-primary me-2">
           <FaEdit />
         </button>
-        <button className="btn btn-danger me-2">
+        <button onClick={() => deleteCost(id)} className="btn btn-danger me-2">
           <MdDelete />
         </button>
-        <Link to={`/debts/${id}`} className="btn btn-warning">
+        <Link to={`/costs/${id}`} className="btn btn-warning">
           <LuMessageCircleMore />
         </Link>
       </div>
