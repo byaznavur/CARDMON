@@ -26,6 +26,8 @@ const Debts = forwardRef(
     );
     return (
       <div className="container p-0">
+        <h2 className="text-center fw-bold">DEBTS</h2>
+
         <div className="input-group mb-3 mt-3">
           <input
             ref={ref}

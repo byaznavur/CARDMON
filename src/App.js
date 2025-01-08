@@ -1,49 +1,51 @@
 import React, { useRef, useState } from "react";
-import "./App.css";
-import { v4 } from "uuid";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { toast } from "react-toastify";
+import { v4 } from "uuid";
+
+import "./App.css";
+
+import Layout from "./components/layout/index";
+import NotFaund from "./pages/NotFaund";
+import { DEBTS } from "./constants";
+
 import Home from "./pages/Home";
 import Costs from "./pages/Costs";
 import Debts from "./pages/Debts";
-import Layout from "./components/layout/index";
-import NotFaund from "./pages/NotFaund";
 import Login from "./pages/Login";
-import { DEBTS } from "./constants";
-import { toast } from "react-toastify";
 import Debt from "./pages/Debt";
 
 const App = () => {
   const [debts, setDebts] = useState(
-    JSON.parse(localStorage.getItem(DEBTS)) || [
-      {
-        id: "1",
-        name: "Azamat",
-        deadline: "2023-09-30",
-        amount: 1000,
-        phone: "994571234",
-        description: "Aniq va'da bergan !",
-      },
-      {
-        id: "2",
-        name: "Shohrux",
-        deadline: "2023-10-02",
-        amount: 2000,
-        phone: "9983431234",
-        description: "Bfd fdjsf lkfj dlskf  !",
-      },
-      {
-        id: "3",
-        name: "Nodirbek",
-        deadline: "2023-10-01",
-        amount: 1500,
-        phone: "997777777",
-        description: "Ffdf kfjdk keeeqw fdsfds !",
-      },
-    ]
+    JSON.parse(localStorage.getItem(DEBTS)) || []
   );
-  const [selected, setSelected] = useState(null);
-  const [validated, setValidated] = useState(false);
-  const [show, setShow] = useState(false);
+  // !costs
+  const [costs, setCosts] = useState([
+    {
+      id: 1,
+      title: "Products",
+      day: "30-12-2023",
+      price: 1000,
+      desc: "For shop and ....",
+    },
+    {
+      id: 1,
+      title: "Products",
+      day: "30-12-2023",
+      price: 1000,
+      desc: "For shop and ....",
+    },
+  ]);
+  const [selected, setSelected] = useState(null); // similar
+
+  const [validated, setValidated] = useState(false); // similar
+
+  const [show, setShow] = useState(false); // similar
+
+  const searchRef = useRef(); // similar
+
+  const [search, setSearch] = useState(""); // similar
+
   const [debt, setDebt] = useState({
     name: "",
     deadline: "",
@@ -51,8 +53,12 @@ const App = () => {
     phone: "",
     description: "",
   });
-  const [search, setSearch] = useState("");
-  const searchRef = useRef();
+  const [cost, setCost] = useState({
+    title: "",
+    day: "",
+    price: "",
+    desc: "",
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -76,6 +82,16 @@ const App = () => {
       localStorage.setItem(DEBTS, JSON.stringify(newDebts));
 
       setDebts(newDebts);
+      handleClose();
+    } else {
+      setValidated(true);
+    }
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    if (form.checkValidity()) {
       handleClose();
     } else {
       setValidated(true);
@@ -123,13 +139,30 @@ const App = () => {
   const handleSearch = (e) => {
     setSearch(e.target.value.trim().toLowerCase());
   };
+
+  //! costs
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<Layout />}>
           <Route path="home" element={<Home debts={debts} />} />
-          <Route path="costs" element={<Costs />} />
+
+          {/* costs */}
+          <Route
+            path="costs"
+            element={
+              <Costs
+                show={show}
+                costs={costs}
+                submit={submit}
+                validated={validated}
+                handleShow={handleShow}
+                handleClose={handleClose}
+              />
+            }
+          />
           <Route
             path="debts"
             element={
