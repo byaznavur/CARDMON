@@ -16,9 +16,8 @@ const Home = ({ debts, costs }) => {
   return (
     <div className="container">
       <section className="">
-        <h2 className="text-center">Debtors</h2>
-
         <div>
+          <h2 className="text-center">Debtors</h2>
           <ul className="p-0">
             {debts.map((debt, index) => (
               <li
@@ -38,7 +37,9 @@ const Home = ({ debts, costs }) => {
           </Link>
         </div>
 
-        <div>
+        <div className="mt-4">
+          <h2 className="text-center">Costs</h2>
+
           <ul className="p-0 mt-3">
             {costs.map((cost, index) => (
               <li
